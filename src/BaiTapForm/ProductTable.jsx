@@ -6,8 +6,6 @@ const ProductTable = () => {
     const dispatch = useDispatch();
     const [valueSearch,setValueSearch] = useState()
     const { listSV } = useSelector((state) => state.BTForm);
-    const sortList = [...listSV]
-    sortList.sort((a,b) => Number(a.maSV) - Number(b.maSV))
     const svSearch = listSV.filter((v) =>
         v.name.toLowerCase().includes(valueSearch?.toLowerCase())
     )
@@ -45,7 +43,7 @@ const ProductTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {(render ? render : sortList).map((v) => (
+                    {(render ? render : listSV).map((v) => (
                         <tr className="pt-3" key={v.maSV}>
                             <td>{v.maSV}</td>
                             <td>{v.name}</td>

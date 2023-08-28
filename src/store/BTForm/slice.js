@@ -10,10 +10,11 @@ const BTFormSlice = createSlice({
     initialState,
     reducers : {
         addSV : (state , {payload}) => {
-            if(state.listSV?.find((v) => v.maSV === payload.maSV)){
+            if(state.listSV.find((v) => v.maSV === payload.maSV)){
                 return 
             } else {
                 state.listSV.push(payload)
+                state.listSV.sort((a,b) => Number(a.maSV - b.maSV))
             }
         },
         deleteSV : (state, {payload}) => {

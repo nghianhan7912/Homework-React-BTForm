@@ -34,11 +34,13 @@ const ProductFrom = () => {
         }
         return mess;
     };
+    const removeZero = (v) => v.replace(/^0+/, '')
     const handleFormValue = () => (v) => {
         const { name, value } = v.target;
+        const cleanZero = name === "maSV" ? removeZero(value) : value
         setFormValue({
             ...formValue,
-            [name]: value,
+            [name]: cleanZero,
         });
     };
     const handleFormError = () => (v) => {
