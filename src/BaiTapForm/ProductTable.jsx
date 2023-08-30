@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BTFormActions } from "../store/BTForm/slice";
+import { useRenderContext } from "./RenderContext";
 
 const ProductTable = () => {
     const dispatch = useDispatch();
-    const [valueSearch,setValueSearch] = useState()
+    const [valueSearch, setValueSearch] = useState();
     const { listSV } = useSelector((state) => state.BTForm);
     const svSearch = listSV.filter((v) =>
         v.name.toLowerCase().includes(valueSearch?.toLowerCase())
-    )
-    const [render,setRender] = useState()
+    );
+    const { render, setRender } = useRenderContext();
     return (
         <div>
             <input
@@ -21,13 +22,13 @@ const ProductTable = () => {
                     setValueSearch(ev.target.value);
                 }}
                 onKeyDown={(v) => {
-                    v.key == "Enter" && setRender(svSearch)
+                    v.key === "Enter" && setRender(svSearch);
                 }}
             />
             <button
                 className="btn btn-outline-warning mt-3"
-                onClick={(ev)=>{
-                    setRender(svSearch)
+                onClick={(ev) => {
+                    setRender(svSearch);
                 }}
             >
                 Tìm kiếm
@@ -43,38 +44,45 @@ const ProductTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {(render ? render : listSV).map((v) => (
-                        <tr className="pt-3" key={v.maSV}>
-                            <td>{v.maSV}</td>
-                            <td>{v.name}</td>
-                            <td>{v.phoneNumber}</td>
-                            <td>{v.email}</td>
-                            <td>
-                                <div className="d-flex gap-3">
-                                    <button
-                                        className="btn btn-success me-2"
-                                        style={{ width: 80 }}
-                                        onClick={() => {
-                                            dispatch(BTFormActions.editSV(v));
-                                        }}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        className="btn btn-danger"
-                                        style={{ width: 80 }}
-                                        onClick={() => {
-                                            dispatch(
-                                                BTFormActions.deleteSV(v.maSV)
-                                            );
-                                        }}
-                                    >
-                                        Delelte
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
+                    { ((render ? render : listSV).map((v) => (
+                            <tr className="pt-3" key={v.maSV}>
+                                <td>{v.maSV}</td>
+                                <td>{v.name}</td>
+                                <td>{v.phoneNumber}</td>
+                                <td>{v.email}</td>
+                                <td>
+                                    <div className="d-flex gap-3">
+                                        <button
+                                            className="btn btn-success me-2"
+                                            style={{ width: 80 }}
+                                            onClick={() => {
+                                                dispatch(
+                                                    BTFormActions.editSV(v)
+                                                );
+                                                setRender("");
+                                            }}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="btn btn-danger"
+                                            style={{ width: 80 }}
+                                            onClick={() => {
+                                                dispatch(
+                                                    BTFormActions.deleteSV(
+                                                        v.maSV
+                                                    )
+                                                );
+                                                setRender("");
+                                            }}
+                                        >
+                                            Delelte
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
+                    )}
                 </tbody>
             </table>
         </div>

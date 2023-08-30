@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BTFormActions } from "../store/BTForm/slice";
 import validator from "validator";
+import { useRenderContext } from "./RenderContext";
 const ProductFrom = () => {
     const dispatch = useDispatch();
     const [formValue, setFormValue] = useState();
     const { svEdit, listSV } = useSelector((state) => state.BTForm);
     const [formError, setFormError] = useState();
+    const {render,setRender} = useRenderContext()
     const validation = (v) => {
         const { validity, title, name, value } = v;
         const { valueMissing, patternMismatch } = validity;
@@ -79,9 +81,11 @@ const ProductFrom = () => {
                     if (!svEdit) {
                         dispatch(BTFormActions.addSV(formValue));
                         setFormValue({});
+                        setRender("")
                     } else {
                         dispatch(BTFormActions.updateSV(formValue));
                         setFormValue({});
+                        setRender("")
                     }
                 }}
             >
