@@ -8,6 +8,7 @@ const ProductFrom = () => {
     const [formValue, setFormValue] = useState();
     const { svEdit, listSV } = useSelector((state) => state.BTForm);
     const [formError, setFormError] = useState();
+    // eslint-disable-next-line no-unused-vars
     const { render, setRender } = useRenderContext();
     const validation = (v) => {
         const { validity, title, name, value } = v;
