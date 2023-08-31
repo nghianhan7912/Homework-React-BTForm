@@ -10,14 +10,15 @@ const ProductFrom = () => {
     const [formError, setFormError] = useState();
     // eslint-disable-next-line no-unused-vars
     const { render, setRender } = useRenderContext();
+    console.log(listSV);
     const validation = (v) => {
         const { validity, title, name, value } = v;
-        const { valueMissing, patternMismatch } = validity;
+        const { patternMismatch } = validity;
         let mess = "";
-        if (valueMissing) {
+        if (value.replace(/\s/g, '').length === 0) {
             mess = `Vui lòng nhập ${title}`;
         } else if (patternMismatch && name === "maSV") {
-            mess = "Mã sinh viên chỉ được bao gồm số";
+            mess = "Mã sinh viên chỉ được bao gồm số và không có khoảng cách";
         } else if (name === "email") {
             if (!validator.isEmail(value)) {
                 mess = "Email không đúng định dạng";
@@ -64,7 +65,7 @@ const ProductFrom = () => {
                 noValidate
                 onSubmit={(ev) => {
                     ev.preventDefault();
-                    const valueInputs = document.querySelectorAll("input");
+                    const valueInputs = document.querySelectorAll(".input1");
                     let errors = {};
                     valueInputs.forEach((v) => {
                         const { name } = v;
@@ -78,6 +79,7 @@ const ProductFrom = () => {
                             break;
                         }
                     }
+                    console.log(isFlag);
                     if (isFlag) return;
                     if (!svEdit) {
                         dispatch(BTFormActions.addSV(formValue));
@@ -104,7 +106,7 @@ const ProductFrom = () => {
                             required
                             disabled={svEdit}
                             pattern="^[0-9]+$"
-                            className="form-control"
+                            className="form-control input1"
                             value={formValue?.maSV || ""}
                             onChange={handleFormValue()}
                             onBlur={handleFormError()}
@@ -129,7 +131,7 @@ const ProductFrom = () => {
                             type="text"
                             required
                             placeholder="Nhập Họ Tên"
-                            className="form-control"
+                            className="form-control input1"
                             value={formValue?.name || ""}
                             onChange={handleFormValue()}
                             onBlur={handleFormError()}
@@ -155,7 +157,7 @@ const ProductFrom = () => {
                             title="số điện thoại"
                             placeholder="Nhập số điện thoại"
                             pattern="(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b"
-                            className="form-control"
+                            className="form-control input1"
                             value={formValue?.phoneNumber || ""}
                             onChange={handleFormValue()}
                             onBlur={handleFormError()}
@@ -180,7 +182,7 @@ const ProductFrom = () => {
                             required
                             title="email"
                             placeholder="Nhập Email"
-                            className="form-control"
+                            className="form-control input1"
                             value={formValue?.email || ""}
                             onChange={handleFormValue()}
                             onBlur={handleFormError()}
