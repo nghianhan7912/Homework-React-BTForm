@@ -22,7 +22,11 @@ const ProductTable = () => {
                     setValueSearch(ev.target.value);
                 }}
                 onKeyDown={(v) => {
-                    v.key === "Enter" && setRender(svSearch);
+                    if(v.key === "Enter" && svSearch.length >0){
+                        setRender(svSearch);
+                    } else {
+                        setRender(listSV)
+                    }
                 }}
             />
             <button

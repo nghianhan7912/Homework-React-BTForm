@@ -8,7 +8,7 @@ const ProductFrom = () => {
     const [formValue, setFormValue] = useState();
     const { svEdit, listSV } = useSelector((state) => state.BTForm);
     const [formError, setFormError] = useState();
-    const {render,setRender} = useRenderContext()
+    const { render, setRender } = useRenderContext();
     const validation = (v) => {
         const { validity, title, name, value } = v;
         const { valueMissing, patternMismatch } = validity;
@@ -36,10 +36,10 @@ const ProductFrom = () => {
         }
         return mess;
     };
-    const removeZero = (v) => v.replace(/^0+/, '')
+    const removeZero = (v) => v.replace(/^0+/, "");
     const handleFormValue = () => (v) => {
         const { name, value } = v.target;
-        const cleanZero = name === "maSV" ? removeZero(value) : value
+        const cleanZero = name === "maSV" ? removeZero(value) : value;
         setFormValue({
             ...formValue,
             [name]: cleanZero,
@@ -81,11 +81,11 @@ const ProductFrom = () => {
                     if (!svEdit) {
                         dispatch(BTFormActions.addSV(formValue));
                         setFormValue({});
-                        setRender("")
+                        setRender("");
                     } else {
                         dispatch(BTFormActions.updateSV(formValue));
                         setFormValue({});
-                        setRender("")
+                        setRender("");
                     }
                 }}
             >
@@ -202,9 +202,19 @@ const ProductFrom = () => {
                                 Thêm sinh viên
                             </button>
                         ) : (
-                            <button className="btn btn-primary mt-3 btnCheck">
+                            <button className="btn btn-primary mt-3 btnCheck" >
                                 Cập nhật sinh viên
                             </button>
+                        )}{" "}
+                        {svEdit ? (
+                            <button className="btn btn-danger mt-3 btnCheck" onClick={()=>{
+                                dispatch(BTFormActions.deleteEdit())
+                                setFormValue("")
+                            }}>
+                                Huỷ cập nhật
+                            </button>
+                        ) : (
+                            ""
                         )}
                     </div>
                 </div>

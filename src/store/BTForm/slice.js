@@ -23,6 +23,9 @@ const BTFormSlice = createSlice({
         editSV : (state, {payload}) => {
             state.svEdit = payload
         },
+        deleteEdit : (state) => {
+            state.svEdit = undefined
+        },
         updateSV : (state, {payload}) =>{
             const index = state.listSV.findIndex((v) => v.maSV === payload.maSV)
             state.listSV[index] = payload
