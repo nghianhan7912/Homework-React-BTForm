@@ -10,7 +10,6 @@ const ProductFrom = () => {
     const [formError, setFormError] = useState();
     // eslint-disable-next-line no-unused-vars
     const { render, setRender } = useRenderContext();
-    console.log(listSV);
     const validation = (v) => {
         const { validity, title, name, value } = v;
         const { patternMismatch } = validity;
@@ -79,7 +78,6 @@ const ProductFrom = () => {
                             break;
                         }
                     }
-                    console.log(isFlag);
                     if (isFlag) return;
                     if (!svEdit) {
                         dispatch(BTFormActions.addSV(formValue));
