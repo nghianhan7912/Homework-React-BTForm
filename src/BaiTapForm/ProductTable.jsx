@@ -11,6 +11,9 @@ const ProductTable = () => {
         v.name.toLowerCase().includes(valueSearch?.toLowerCase())
     );
     const { render, setRender } = useRenderContext();
+    const vietHoa = (str) => {
+        return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    }
     return (
         <div>
             <input
@@ -51,7 +54,7 @@ const ProductTable = () => {
                     { ((render ? render : listSV).map((v) => (
                             <tr className="pt-3" key={v.maSV}>
                                 <td>{v.maSV}</td>
-                                <td>{v.name}</td>
+                                <td>{vietHoa(v.name)}</td>
                                 <td>{v.phoneNumber}</td>
                                 <td>{v.email}</td>
                                 <td>
