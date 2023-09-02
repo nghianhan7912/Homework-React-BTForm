@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BTFormActions } from "../store/BTForm/slice";
-import validator from "validator";
+// import validator from "validator";
 import { useRenderContext } from "./RenderContext";
 const ProductFrom = () => {
     const dispatch = useDispatch();
     const [formValue, setFormValue] = useState();
     const { svEdit, listSV } = useSelector((state) => state.BTForm);
     const [formError, setFormError] = useState();
-    // eslint-disable-next-line no-unused-vars
-    const { render, setRender } = useRenderContext();
+    const {setValueSearch} = useRenderContext();
+    const { setRender } = useRenderContext();
     const validation = (v) => {
         const { validity, title, name, value } = v;
         const { patternMismatch } = validity;
         let mess = "";
-        if (value.replace(/\s/g, '').length === 0) {
+        if (value.replace(/\s/g, "").length === 0) {
             mess = `Vui lòng nhập ${title}`;
         } else if (patternMismatch && name === "maSV") {
             mess = "Mã sinh viên chỉ được bao gồm số và không có khoảng cách";
-        } else if (name === "email") {
-            if (!validator.isEmail(value)) {
-                mess = "Email không đúng định dạng";
-            }
+        } else if (patternMismatch && name === "email") {
+            // if (!validator.isEmail(value)) {
+            //     mess = "Email không đúng định dạng";
+            // }
+            mess = "Email không đúng định dạng";
         } else if (name === "name") {
             const regexName = /^[a-zA-ZÀ-ỹ\s]+$/;
             if (!regexName.test(value)) {
@@ -83,10 +84,12 @@ const ProductFrom = () => {
                         dispatch(BTFormActions.addSV(formValue));
                         setFormValue({});
                         setRender("");
+                        setValueSearch("")
                     } else {
                         dispatch(BTFormActions.updateSV(formValue));
                         setFormValue({});
                         setRender("");
+                        setValueSearch("")
                     }
                 }}
             >
@@ -179,6 +182,7 @@ const ProductFrom = () => {
                             type="text"
                             required
                             title="email"
+                            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                             placeholder="Nhập Email"
                             className="form-control input1"
                             value={formValue?.email || ""}
@@ -203,15 +207,18 @@ const ProductFrom = () => {
                                 Thêm sinh viên
                             </button>
                         ) : (
-                            <button className="btn btn-primary mt-3 btnCheck" >
+                            <button className="btn btn-primary mt-3 btnCheck">
                                 Cập nhật sinh viên
                             </button>
                         )}{" "}
                         {svEdit ? (
-                            <button className="btn btn-danger mt-3 btnCheck" onClick={()=>{
-                                dispatch(BTFormActions.deleteEdit())
-                                setFormValue("")
-                            }}>
+                            <button
+                                className="btn btn-danger mt-3 btnCheck"
+                                onClick={() => {
+                                    dispatch(BTFormActions.deleteEdit());
+                                    setFormValue("");
+                                }}
+                            >
                                 Huỷ cập nhật
                             </button>
                         ) : (

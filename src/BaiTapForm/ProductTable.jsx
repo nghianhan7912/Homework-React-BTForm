@@ -5,7 +5,7 @@ import { useRenderContext } from "./RenderContext";
 
 const ProductTable = () => {
     const dispatch = useDispatch();
-    const [valueSearch, setValueSearch] = useState();
+    const {valueSearch, setValueSearch} = useRenderContext();
     const { listSV } = useSelector((state) => state.BTForm);
     const svSearch = listSV.filter((v) =>
         v.name.toLowerCase().includes(valueSearch?.toLowerCase())
@@ -19,7 +19,7 @@ const ProductTable = () => {
             <input
                 value={valueSearch || ""}
                 type="text"
-                className="form-control mt-3"
+                className="form-control mt-3 searchInput"
                 placeholder="Tìm kiếm theo tên"
                 onChange={(ev) => {
                     setValueSearch(ev.target.value);
