@@ -7,6 +7,7 @@ const ProductTable = () => {
     const dispatch = useDispatch();
     const {valueSearch, setValueSearch} = useRenderContext();
     const { listSV } = useSelector((state) => state.BTForm);
+    const {setFormError} = useRenderContext();
     const svSearch = listSV.filter((v) =>
         v.name.toLowerCase().includes(valueSearch?.toLowerCase())
     );
@@ -67,6 +68,7 @@ const ProductTable = () => {
                                                     BTFormActions.editSV(v)
                                                 );
                                                 setRender("");
+                                                setFormError("")
                                             }}
                                         >
                                             Edit

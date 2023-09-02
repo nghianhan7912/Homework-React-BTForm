@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { BTFormActions } from "../store/BTForm/slice";
 // import validator from "validator";
 import { useRenderContext } from "./RenderContext";
+import { toast } from "react-toastify";
 const ProductFrom = () => {
     const dispatch = useDispatch();
     const [formValue, setFormValue] = useState();
     const { svEdit, listSV } = useSelector((state) => state.BTForm);
-    const [formError, setFormError] = useState();
-    const {setValueSearch} = useRenderContext();
+    const {formError, setFormError} = useRenderContext();
+    const { setValueSearch } = useRenderContext();
     const { setRender } = useRenderContext();
     const validation = (v) => {
         const { validity, title, name, value } = v;
@@ -79,17 +80,22 @@ const ProductFrom = () => {
                             break;
                         }
                     }
-                    if (isFlag) return;
+                    if (isFlag) {
+                        toast.error("xử lý thất bại");
+                        return;
+                    }
                     if (!svEdit) {
                         dispatch(BTFormActions.addSV(formValue));
                         setFormValue({});
                         setRender("");
-                        setValueSearch("")
+                        setValueSearch("");
+                        toast.success("Thêm sinh viên thành công");
                     } else {
                         dispatch(BTFormActions.updateSV(formValue));
                         setFormValue({});
                         setRender("");
-                        setValueSearch("")
+                        setValueSearch("");
+                        toast.success("Cập nhật sinh viên thành công");
                     }
                 }}
             >
@@ -217,6 +223,7 @@ const ProductFrom = () => {
                                 onClick={() => {
                                     dispatch(BTFormActions.deleteEdit());
                                     setFormValue("");
+                                    setFormError("");
                                 }}
                             >
                                 Huỷ cập nhật
